@@ -1,4 +1,4 @@
-package com.historion.time;
+package com.historion.display;
 
 import com.historion.Historion;
 import com.mojang.blaze3d.vertex.PoseStack;
@@ -15,6 +15,16 @@ public class TimeDateOverlay {
 
     private static final int[] DAYS_IN_MONTH = { 31,28,31,30,31,30,31,31,30,31,30,31 };
     private static final String[] WEEKDAYS = { "日", "月", "火", "水", "木", "金", "土" };
+
+    private static String getSeason(int month) {
+        switch (month) {
+            case 6, 7, 8, 9 -> { return "夏"; }
+            case 10, 11 -> { return "秋"; }
+            case 12, 1, 2, 3 -> { return "冬"; }
+            case 4, 5 -> { return "春"; }
+            default -> { return ""; }
+        }
+    }
 
     @SubscribeEvent
     public static void onRenderOverlay(RenderGuiOverlayEvent.Post event) {
@@ -61,6 +71,7 @@ public class TimeDateOverlay {
         poseStack.pushPose();
         graphics.drawString(mc.font, "時間: " + timeStr, 5, 5, 0xFFFFFF);
         graphics.drawString(mc.font, "日付: " + dateStr, 5, 15, 0xFFFFFF);
+        graphics.drawString(mc.font, "季節: " + getSeason(month), 5, 25, 0xFFFFFF);
         poseStack.popPose();
     }
 }
